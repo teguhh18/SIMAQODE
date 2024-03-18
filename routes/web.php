@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\RuanganController;
+use App\Models\Ruangan;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,3 +18,9 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('home');
 });
+
+// Route::get('/ruangan', function () {
+//     return view('ruangan');
+// });
+
+Route::get('/ruangan', [RuanganController::class, 'index']);

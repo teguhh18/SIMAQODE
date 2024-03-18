@@ -54,8 +54,7 @@ class BarangResource extends Resource
             TextInput::make('kondisi_barang')->required(),
             TextInput::make('status')->required(),
             FileUpload::make('foto')
-            ->disk('local')
-            ->directory('public/foto-barang'),
+            ->directory('foto-barang'),
             Toggle::make('bisa_pinjam')->required(),
 
         ]);
@@ -83,7 +82,7 @@ class BarangResource extends Resource
                 TextColumn::make('nilai_perolehan'),
                 TextColumn::make('kondisi_barang'),
                 TextColumn::make('status'),
-                ImageColumn::make('foto')->disk('local'),
+                ImageColumn::make('foto'),
                 ToggleColumn::make('bisa_pinjam')
             ])
             ->filters([

@@ -14,4 +14,9 @@ class Barang extends Model
     public function ruangan() {
         return $this->belongsTo(Ruangan::class);
     }
+
+    public function getRouteKeyName()
+    {
+    return 'slug';
+    }
 }

@@ -50,8 +50,7 @@ class RuanganResource extends Resource
                 TextInput::make('kondisi_ruangan')->required(),
                 TextInput::make('unit_kerja')->required(),
                 FileUpload::make('foto')
-                ->disk('local')
-                ->directory('public/foto-ruangan'),
+                ->directory('foto-ruangan'),
                 Toggle::make('bisa_pinjam')->required(),
 
             ]);
@@ -78,7 +77,7 @@ class RuanganResource extends Resource
                 TextColumn::make('tipe_ruangan'),
                 TextColumn::make('kondisi_ruangan'),
                 TextColumn::make('unit_kerja'),
-                ImageColumn::make('foto')->disk('local'),
+                ImageColumn::make('foto'),
                 ToggleColumn::make('bisa_pinjam')
             ])
             ->filters([

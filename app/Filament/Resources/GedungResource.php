@@ -45,8 +45,7 @@ class GedungResource extends Resource
                 TextInput::make('nilai_perolehan'),
                 TextInput::make('tahun_perolehan'),
                 FileUpload::make('foto')
-                ->disk('local')
-                ->directory('public/foto-gedung')
+                ->directory('foto-gedung')
                 ])
             ]);
     }
@@ -71,7 +70,7 @@ class GedungResource extends Resource
                 TextColumn::make('lokasi_kampus'),
                 TextColumn::make('nilai_perolehan'),
                 TextColumn::make('tahun_perolehan'),
-                ImageColumn::make('foto')->disk('local')
+                ImageColumn::make('foto')
             ])
             ->filters([
                 //

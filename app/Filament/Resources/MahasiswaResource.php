@@ -12,6 +12,7 @@ use Filament\Resources\Form;
 use Filament\Resources\Resource;
 use Filament\Resources\Table;
 use Filament\Tables;
+use Livewire\Component;
 use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Contracts\HasTable;
@@ -29,14 +30,16 @@ class MahasiswaResource extends Resource
         return $form
             ->schema([
             TextInput::make('npm')->required(),
-            
             TextInput::make('nama')->required(),
             TextInput::make('email')->required(),
-            TextInput::make('password')->required()->password(),
+            // TextInput::make('password')->required()->password(),
+            Forms\Components\TextInput::make('password')
+            ->password()
+            ->required()
+            ->visibleOn('create'),
             TextInput::make('prodi')->required(),
             FileUpload::make('foto')
-            ->disk('local')
-            ->directory('public/foto-mahasiswa'),
+            ->directory('foto-mahasiswa'),
             ]);
     }
 
@@ -58,7 +61,7 @@ class MahasiswaResource extends Resource
                 TextColumn::make('nama'),
                 TextColumn::make('email'),
                 TextColumn::make('prodi'),
-                ImageColumn::make('foto')->disk('local')
+                ImageColumn::make('foto')
             ])
             ->filters([
                 //
