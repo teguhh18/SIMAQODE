@@ -25,39 +25,40 @@ use Filament\Tables\Contracts\HasTable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Filament\Tables\Actions\Action;
-
+use Filament\Tables\Filters\Filter;
 
 class BarangResource extends Resource
 {
     protected static ?string $model = Barang::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-collection';
+    protected static ?string $navigationGroup = 'Management';
 
     public static function form(Form $form): Form
     {
         return $form
-        ->schema([
-            Select::make('ruangan_id')
-            ->relationship('ruangan', 'nama_ruang')->required(),
+            ->schema([
+                Select::make('ruangan_id')
+                    ->relationship('ruangan', 'nama_ruang')->required(),
 
-            TextInput::make('kode_barang')->required(),
-            TextInput::make('nama_barang')
-            ->reactive()
-            ->afterStateUpdated(function (Closure $set, $state) {
-                $set('slug', Str::slug($state));
-            })->required(),
-            TextInput::make('slug')->required(),
-            
-            TextInput::make('penanggung_jawab')->required(),
-            DatePicker::make('tanggal_beli')->required(),
-            TextInput::make('nilai_perolehan')->required(),
-            TextInput::make('kondisi_barang')->required(),
-            TextInput::make('status')->required(),
-            FileUpload::make('foto')
-            ->directory('foto-barang'),
-            Toggle::make('bisa_pinjam')->required(),
+                TextInput::make('kode_barang')->required(),
+                TextInput::make('nama_barang')
+                    ->reactive()
+                    ->afterStateUpdated(function (Closure $set, $state) {
+                        $set('slug', Str::slug($state));
+                    })->required(),
+                TextInput::make('slug')->required(),
 
-        ]);
+                TextInput::make('penanggung_jawab')->required(),
+                DatePicker::make('tanggal_beli')->required(),
+                TextInput::make('nilai_perolehan')->required(),
+                TextInput::make('kondisi_barang')->required(),
+                TextInput::make('status')->required(),
+                FileUpload::make('foto')
+                    ->directory('foto-barang'),
+                Toggle::make('bisa_pinjam')->required(),
+
+            ]);
     }
 
     public static function table(Table $table): Table
@@ -65,7 +66,7 @@ class BarangResource extends Resource
         return $table
             ->columns([
                 TextColumn::make('no')->getStateUsing(
-                    static function ( $rowLoop, HasTable $livewire): string {
+                    static function ($rowLoop, HasTable $livewire): string {
                         return (string) (
                             $rowLoop->iteration +
                             ($livewire->tableRecordsPerPage * (
@@ -75,7 +76,7 @@ class BarangResource extends Resource
                     }
                 ),
                 TextColumn::make('kode_barang'),
-                TextColumn::make('nama_barang'),
+                TextColumn::make('nama_barang')->sortable()->searchable(),
                 TextColumn::make('ruangan.nama_ruang'),
                 TextColumn::make('penanggung_jawab'),
                 TextColumn::make('tanggal_beli')->date(),
@@ -86,28 +87,31 @@ class BarangResource extends Resource
                 ToggleColumn::make('bisa_pinjam')
             ])
             ->filters([
-                //
+                Filter::make('bisa_pinjam')
+                    ->query(fn (Builder $query): Builder => $query->where('bisa_pinjam', true))
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
-                Action::make('View Qr Code')
-                ->icon('heroicon-o-qrcode')
-                ->url(fn (Barang $record) => static::getUrl('qr-code', $record))
+                Tables\Actions\DeleteAction::make(),
+                Tables\Actions\ViewAction::make(),
+                Action::make('Qr-Code')
+                    ->icon('heroicon-o-qrcode')
+                    ->url(fn (Barang $record) => static::getUrl('qr-code', $record))
                 // ->openUrlInNewTab(),
-                
+
             ])
             ->bulkActions([
                 Tables\Actions\DeleteBulkAction::make(),
             ]);
     }
-    
+
     public static function getRelations(): array
     {
         return [
             //
         ];
     }
-    
+
     public static function getPages(): array
     {
         return [
@@ -116,5 +120,5 @@ class BarangResource extends Resource
             'edit' => Pages\EditBarang::route('/{record}/edit'),
             'qr-code' => Pages\ViewQrCode::route('/{record}/qr-code'),
         ];
-    }    
+    }
 }

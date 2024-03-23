@@ -2,45 +2,41 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\MahasiswaResource\Pages;
-use App\Filament\Resources\MahasiswaResource\RelationManagers;
-use App\Models\Mahasiswa;
+use App\Filament\Resources\PermissionResource\Pages;
+use App\Filament\Resources\PermissionResource\RelationManagers;
+// use App\Models\Permission;
 use Filament\Forms;
-use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Components\Card;
 use Filament\Forms\Components\TextInput;
 use Filament\Resources\Form;
 use Filament\Resources\Resource;
 use Filament\Resources\Table;
 use Filament\Tables;
-use Livewire\Component;
-use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Contracts\HasTable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Spatie\Permission\Models\Permission;
 
-class MahasiswaResource extends Resource
+class PermissionResource extends Resource
 {
-    protected static ?string $model = Mahasiswa::class;
+    protected static ?string $model = Permission::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-academic-cap';
+    protected static ?string $navigationIcon = 'heroicon-o-key';
+
     protected static ?string $navigationGroup = 'Setting';
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-            TextInput::make('npm')->required(),
-            TextInput::make('nama')->required(),
-            TextInput::make('email')->required(),
-            // TextInput::make('password')->required()->password(),
-            Forms\Components\TextInput::make('password')
-            ->password()
-            ->required()
-            ->visibleOn('create'),
-            TextInput::make('prodi')->required(),
-            FileUpload::make('foto')
-            ->directory('foto-mahasiswa'),
+                    Card::make()->schema([
+                        TextInput::make('name')
+                        ->minLength(3)
+                        ->required()
+                        ->maxLength(100)
+                        ->unique(ignoreRecord:true)
+                    ])
             ]);
     }
 
@@ -49,7 +45,7 @@ class MahasiswaResource extends Resource
         return $table
             ->columns([
                 TextColumn::make('no')->getStateUsing(
-                    static function ( $rowLoop, HasTable $livewire): string {
+                    static function ($rowLoop, HasTable $livewire): string {
                         return (string) (
                             $rowLoop->iteration +
                             ($livewire->tableRecordsPerPage * (
@@ -58,11 +54,8 @@ class MahasiswaResource extends Resource
                         );
                     }
                 ),
-                TextColumn::make('npm'),
-                TextColumn::make('nama'),
-                TextColumn::make('email'),
-                TextColumn::make('prodi'),
-                ImageColumn::make('foto')
+
+                TextColumn::make('name')->sortable()->searchable(),
             ])
             ->filters([
                 //
@@ -85,9 +78,9 @@ class MahasiswaResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListMahasiswa::route('/'),
-            'create' => Pages\CreateMahasiswa::route('/create'),
-            'edit' => Pages\EditMahasiswa::route('/{record}/edit'),
+            'index' => Pages\ListPermissions::route('/'),
+            'create' => Pages\CreatePermission::route('/create'),
+            'edit' => Pages\EditPermission::route('/{record}/edit'),
         ];
     }    
 }

@@ -31,6 +31,7 @@ class RuanganResource extends Resource
     protected static ?string $model = Ruangan::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-office-building';
+    protected static ?string $navigationGroup = 'Management';
 
     public static function form(Form $form): Form
     {
@@ -70,7 +71,7 @@ class RuanganResource extends Resource
                         );
                     }
                 ),
-                TextColumn::make('nama_ruang'),
+                TextColumn::make('nama_ruang')->searchable(),
                 TextColumn::make('gedung.nama_gedung'),
                 TextColumn::make('lantai'),
                 TextColumn::make('kapasitas'),
@@ -85,6 +86,8 @@ class RuanganResource extends Resource
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make(),
+                Tables\Actions\ViewAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\DeleteBulkAction::make(),

@@ -17,7 +17,7 @@
                         Welcome back, {{ auth()->user()->name }}
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <li><a class="dropdown-item" href="/dashboard"><i class="bi bi-layout-text-window-reverse"></i> Dashboard</a></li>
+                        {{-- <li><a class="dropdown-item" href="/dashboard"><i class="bi bi-layout-text-window-reverse"></i> Dashboard</a></li> --}}
                         <li><a class="dropdown-item" href="/myProfile/show"><i class="bi bi-person"></i> My Profile</a></li>
                         <li><hr class="dropdown-divider"></li>
                         <li>

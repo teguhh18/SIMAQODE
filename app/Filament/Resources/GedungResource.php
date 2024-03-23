@@ -26,6 +26,7 @@ class GedungResource extends Resource
     protected static ?string $model = Gedung::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-library';
+    protected static ?string $navigationGroup = 'Management';
 
     public static function form(Form $form): Form
     {
@@ -65,7 +66,7 @@ class GedungResource extends Resource
                     }
                 ),
                 TextColumn::make('kode_gedung'),
-                TextColumn::make('nama_gedung'),
+                TextColumn::make('nama_gedung')->searchable(),
                 TextColumn::make('sumber_dana'),
                 TextColumn::make('lokasi_kampus'),
                 TextColumn::make('nilai_perolehan'),
@@ -77,6 +78,8 @@ class GedungResource extends Resource
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make(),
+                Tables\Actions\ViewAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\DeleteBulkAction::make(),
