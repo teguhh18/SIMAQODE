@@ -1,7 +1,7 @@
 <?php
 
+use App\Http\Controllers\LoginController;
 use App\Http\Controllers\RuanganController;
-use App\Models\Ruangan;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -19,8 +19,14 @@ Route::get('/', function () {
     return view('home');
 });
 
-// Route::get('/ruangan', function () {
-//     return view('ruangan');
-// });
+
 
 Route::get('/ruangan', [RuanganController::class, 'index']);
+
+// Route::get('/login', function () {
+//     return view('login');
+// });
+
+Route::get('/login',[LoginController::class, 'index'])->name('login')->middleware('guest');
+Route::post('/login',[LoginController::class, 'authenticate']);
+Route::post('logout',[LoginController::class, 'logout']);

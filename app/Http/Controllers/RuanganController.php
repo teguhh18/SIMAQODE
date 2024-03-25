@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Gedung;
+
 use Illuminate\Http\Request;
 use App\Models\Ruangan;
-use App\Models\User;
+
 
 class RuanganController extends Controller
 {

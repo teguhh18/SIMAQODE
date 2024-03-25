@@ -14,7 +14,10 @@
                 @auth
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        Welcome back, {{ auth()->user()->name }}
+                        @if(Auth::guard('mahasiswa')->check())
+                        Welcome back, {{ auth()->guard('mahasiswa')->user()->nama }}
+                        @endif
+
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                         {{-- <li><a class="dropdown-item" href="/dashboard"><i class="bi bi-layout-text-window-reverse"></i> Dashboard</a></li> --}}
@@ -32,7 +35,7 @@
                 </li>
                 @else 
                 <li class="nav-item">
-                    <a href="/login" class="nav-link" {{ ($active === "login" ? 'active' : '') }}><i class="bi bi-box-arrow-in-right"></i> Log In</a>
+                    <a href="/login" class="nav-link"><i class="bi bi-box-arrow-in-right"></i> Log In</a>
                 </li>
                 @endauth
             </ul>
