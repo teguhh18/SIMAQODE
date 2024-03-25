@@ -22,7 +22,7 @@ return new class extends Migration
             $table->string('nilai_perolehan');
             $table->string('kondisi_barang');
             $table->string('status');
-            $table->string('foto');
+            $table->string('foto')->nullable();
             $table->boolean('bisa_pinjam');
             $table->timestamps();
         });

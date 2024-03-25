@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('lokasi_kampus');
             $table->string('nilai_perolehan');
             $table->string('tahun_perolehan');
-            $table->string('foto');
+            $table->string('foto')->nullable();
             $table->timestamps();
         });
     }
